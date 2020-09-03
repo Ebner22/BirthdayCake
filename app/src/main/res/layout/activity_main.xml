@@ -78,7 +78,7 @@
                 android:text="Frosting" />
 
             <Switch
-                android:id="@+id/switch1"
+                android:id="@+id/candles"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checked="true"
@@ -94,15 +94,16 @@
             android:orientation="vertical">
 
             <Button
-                android:id="@+id/button2"
+                android:id="@+id/blow_out_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="BLOW OUT" />
 
             <Button
-                android:id="@+id/button"
+                android:id="@+id/goodbye_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:onClick="goodbye"
                 android:text="GOODBYE" />
 
         </LinearLayout>
