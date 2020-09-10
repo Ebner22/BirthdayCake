@@ -17,6 +17,8 @@ public class CakeView extends SurfaceView {
     Paint innerFlamePaint = new Paint();
     Paint wickPaint = new Paint();
 
+    private CakeModel cake_model_ref=new CakeModel();
+
     /* These constants define the dimensions of the cake.  While defining constants for things
         like this is good practice, we could be calculating these better by detecting
         and adapting to different tablets' screen sizes and resolutions.  I've deliberately
@@ -26,7 +28,7 @@ public class CakeView extends SurfaceView {
     public static final float cakeLeft = 100.0f;
     public static final float cakeWidth = 1200.0f;
     public static final float layerHeight = 200.0f;
-    public static final float frostHeight = 50.0f;
+    public float frostHeight = 50.0f;
     public static final float candleHeight = 300.0f;
     public static final float candleWidth = 40.0f;
     public static final float wickHeight = 30.0f;
@@ -71,15 +73,16 @@ public class CakeView extends SurfaceView {
     public void drawCandle(Canvas canvas, float left, float bottom) {
         canvas.drawRect(left, bottom - candleHeight, left + candleWidth, bottom, candlePaint);
 
-        //draw the outer flame
-        float flameCenterX = left + candleWidth/2;
-        float flameCenterY = bottom - wickHeight - candleHeight - outerFlameRadius/3;
-        canvas.drawCircle(flameCenterX, flameCenterY, outerFlameRadius, outerFlamePaint);
+        if (cake_model_ref.lit) {
+            //draw the outer flame
+            float flameCenterX = left + candleWidth / 2;
+            float flameCenterY = bottom - wickHeight - candleHeight - outerFlameRadius / 3;
+            canvas.drawCircle(flameCenterX, flameCenterY, outerFlameRadius, outerFlamePaint);
 
-        //draw the inner flame
-        flameCenterY += outerFlameRadius/3;
-        canvas.drawCircle(flameCenterX, flameCenterY, innerFlameRadius, innerFlamePaint);
-
+            //draw the inner flame
+            flameCenterY += outerFlameRadius / 3;
+            canvas.drawCircle(flameCenterX, flameCenterY, innerFlameRadius, innerFlamePaint);
+        }
         //draw the wick
         float wickLeft = left + candleWidth/2 - wickWidth/2;
         float wickTop = bottom - wickHeight - candleHeight;
@@ -120,10 +123,16 @@ public class CakeView extends SurfaceView {
         canvas.drawRect(cakeLeft, top, cakeLeft + cakeWidth, bottom, cakePaint);
 
         //Now a candle in the center
-        drawCandle(canvas, cakeLeft + cakeWidth/3 - candleWidth/3, cakeTop);
-        drawCandle(canvas, cakeLeft + cakeWidth*2/3 - candleWidth*2/3, cakeTop);
+        if (cake_model_ref.candles) {
+            int num=cake_model_ref.num_candles;
+            for (int i=1; i<=num; i++){
+                drawCandle(canvas, cakeLeft + cakeWidth * i / (num+1) - candleWidth * i / (num+1), cakeTop);
+            }
 
+        }
     }//onDraw
-
+    public CakeModel getCake_model_ref(){
+        return cake_model_ref;
+    }
 }//class CakeView
 
